@@ -617,7 +617,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |:----    |:---|:----- |-----   |
 |symbol |是  |string |交易币种，如btcusdt，ethbtc   |
 |side |是  |string |交易方向，如buy，sell   |
-|type |是  |string |订单类型，如limit，market   |
+|type |是  |string |订单类型，如limit，market，暂时仅支持限价单，市价单后续会发布  |
 |price |是  |string |下单价格   |
 |amount |是  |string |下单数量   |
 
@@ -639,7 +639,6 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |data|String|订单ID|
 
  **备注** 
-- 市价下单不需要传price
 - 更多返回错误代码请看首页的错误代码描述
 
 # 查询订单列表
@@ -663,7 +662,9 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |after |否  |string |查询某个页码之后的订单|
 |limit |否  |string |每页的订单数量，默认为 20 条，最大支持到100条|
 
-**注意before和after只能有1个时间戳**
+**注意
+1、before和after只能有1个时间戳；
+2、states可以传多值，中间用逗号分隔，如states=submitted,canceled；**
 
  **返回示例**
 
