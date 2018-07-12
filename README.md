@@ -24,7 +24,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
 
 对于请求的 URI 中的参数，需要按照按照字母表排序！
 
-即如果请求的 URI 为 https://api.bi.top/v1/orders?c=value1&b=value2&a=value3，则进行签名时，应先将请求参数按照字母表排序，最终进行签名的 URI 为 https://api.bi.top/v1/orders?a=value3&b=value2&c=value1， 请注意，原请求 URI 中的三个参数顺序为 c, b, a，排序后为 a, b, c。
+即如果请求的 URI 为 https://api.bi.top/v1/orders?c=value1&b=value2&a=value3， 则进行签名时，应先将请求参数按照字母表排序，最终进行签名的 URI 为 https://api.bi.top/v1/orders?a=value3&b=value2&c=value1， 请注意，原请求 URI 中的三个参数顺序为 c, b, a，排序后为 a, b, c。
 
 # TIMESTAMP
 访问 API 时的 UNIX EPOCH 时间戳，需要和服务器之间的时间差少于 30 秒
