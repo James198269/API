@@ -1,7 +1,7 @@
 # 认证
-BI.TOP 使用 API key 和 API secret 进行验证，请访问 设置中心，并注册成为开发者，获取 API key 和 API secret。
+Bi.top 使用 API key 和 API secret 进行验证，请访问 设置中心，并注册成为开发者，获取 API key 和 API secret。
 
-BI.TOP[www.bi.top](https://www.bi.top "www.bi.top") 的 API 请求，除公开的 API 外都需要携带 API key 以及签名
+Bi.top[www.bi.top](https://www.bi.top "www.bi.top") 的 API 请求，除公开的 API 外都需要携带 API key 以及签名
 
 # 访问限制
 目前访问频率为每个用户 100次 / 10秒，未来会按照业务区分访问频率限制。
@@ -18,13 +18,13 @@ HTTP_METHOD + HTTP_REQUEST_URI + TIMESTAMP + POST_BODY
 GET, POST, DELETE, PUT 需要大写
 
 # HTTP_REQUEST_URI
-https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
+https://api.bi.top/v1/ 为 v1 API 的请求前缀
 
-后面再加上真正要访问的资源路径，如 orders?param1=value1，最终即 https://api.bi.top.com/v2/orders?param1=value1
+后面再加上真正要访问的资源路径，如 orders?param1=value1，最终即 https://api.bi.top/v1/orders?param1=value1
 
 对于请求的 URI 中的参数，需要按照按照字母表排序！
 
-即如果请求的 URI 为 https://api.bi.top.com/v2/orders?c=value1&b=value2&a=value3，则进行签名时，应先将请求参数按照字母表排序，最终进行签名的 URI 为 https://api.bi.top.com/v2/orders?a=value3&b=value2&c=value1， 请注意，原请求 URI 中的三个参数顺序为 c, b, a，排序后为 a, b, c。
+即如果请求的 URI 为 https://api.bi.top/v1/orders?c=value1&b=value2&a=value3，则进行签名时，应先将请求参数按照字母表排序，最终进行签名的 URI 为 https://api.bi.top/v1/orders?a=value3&b=value2&c=value1， 请注意，原请求 URI 中的三个参数顺序为 c, b, a，排序后为 a, b, c。
 
 # TIMESTAMP
 访问 API 时的 UNIX EPOCH 时间戳，需要和服务器之间的时间差少于 30 秒
@@ -44,7 +44,7 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 - 此 API 用于获取服务器时间
 
 **请求URL：** 
-- ` http://xx.com/v1/public/server-time `
+- ` http://api.bi.top/v1/public/server-time `
   
 **请求方式：**
 - GET 
@@ -57,8 +57,8 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 
  ``` 
  { 
-     "exeStatus" : "1", 
-     "data" : 1530179524864 
+     "status" : "0", 
+     "data" : 1531389296513 
  } 
 
  ```
@@ -67,12 +67,8 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data | long | 服务器时间，毫秒值
-
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 
 # 查询可用币种
@@ -81,7 +77,7 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 - 此 API 用于获取可用币种。
 
 **请求URL：** 
-- ` http://xx.com/v1/public/currencies `
+- ` http://api.bi.top/v1/public/currencies `
   
 **请求方式：**
 - GET 
@@ -93,33 +89,22 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
  **返回示例**
 ```
 {
-	"exeStatus": "1",
+	"status": "0",
 	"data": [
-		"snt", 
-		"btc",
-		"ltc",
-		"usdt", 
-		"dnt", 
-		"btm",
-		"eos",
+		"bi",
 		"eth",
-		"qtum",
-		"omg"
+		"usdt",
+		"btc"
 		]
 }
 ```
-
-
 
  **返回参数说明** 
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data | list | 币种简称
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 # 查询可用交易对
 **简要描述：** 
@@ -127,7 +112,7 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 - 此 API 用于获取可用交易对。
 
 **请求URL：** 
-- ` http://xx.com/v1/public/symbols `
+- ` http://api.bi.top/v1/public/symbols `
   
 **请求方式：**
 - GET 
@@ -140,37 +125,13 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 
  ``` 
 {
-	"exeStatus": "1",
+	"status": "0",
 	"data": [{
-		"amount_decimal": "1",
-		"base_currency": "bnt",
-		"name": "bntbtc",
-		"price_decimal": "8",
-		"quote_currency": "btc"
-	}, {
-		"amount_decimal": "2",
-		"base_currency": "qtum",
-		"name": "qtumbtc",
-		"price_decimal": "6",
-		"quote_currency": "btc"
-	}, {
-		"amount_decimal": "1",
-		"base_currency": "eos",
-		"name": "eosbtc",
-		"price_decimal": "8",
-		"quote_currency": "btc"
-	}, {
 		"amount_decimal": "6",
 		"base_currency": "btc",
 		"name": "btcusdt",
 		"price_decimal": "2",
 		"quote_currency": "usdt"
-	}, {
-		"amount_decimal": "2",
-		"base_currency": "ltc",
-		"name": "ltcbtc",
-		"price_decimal": "6",
-		"quote_currency": "btc"
 	}, {
 		"amount_decimal": "5",
 		"base_currency": "eth",
@@ -198,7 +159,7 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data|list|交易对数据封装|
 |name|String|交易对简称|
 |base_currency|String|基础币种|
@@ -206,15 +167,11 @@ https://api.bi.top.com/v2/ 为 v2 API 的请求前缀
 |price_decimal|String|价格精度位数|
 |amount_decimal|String|数量精度位数|
 
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
-
 
 # 行情描述
 行情是一个全公开的 API, 当前仅提供了 HTTP的 API. 
 
-所有 HTTP 请求的 URL base 为: https://api.fcoin.com/v2/market
+所有 HTTP 请求的 URL base 为: https://api.bi.top/v1/market
 
 下文会统一术语:
 
@@ -235,7 +192,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 为了使得 ticker 信息组足够小和快, 我们强制使用了列表格式.
 
 **请求URL：** 
-- ` http://xx.com/api/v1/market/ticker/$symbol `
+- ` http://api.bi.top/v1/market/ticker/$symbol `
   
 **请求方式：**
 - GET 
@@ -250,7 +207,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
  ``` 
 {
-	"exeStatus": "1",
+	"status": "0",
 	"data": {
 		"type": "ticker.ethbtc",
 		"ticker": [
@@ -274,7 +231,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data|map|ticker返回值封装|
 |type |String   |ticker的类型  |
 |ticker |list   |ticker详细字段的封装  |
@@ -295,9 +252,6 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 ]
 
  ```
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 # 获取最新的深度明细
 **简要描述：** 
@@ -305,7 +259,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取最新的深度明细，目前行情深度暂仅支持100档。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/market/depth/$level/$symbol `
+- ` http://api.bi.top/v1/market/depth/$level/$symbol `
   
 **请求方式：**
 - GET 
@@ -314,14 +268,14 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|必须|类型|说明|
 |:----    |:---|:----- |-----   |
+|level |是  |string |行情深度，如L20表示20档行情深度，L100表示100档行情深度   |
 |symbol |是  |string |交易币种，如btcusdt,ethbtc   |
-|level |否  |string |行情深度，如L20表示20档行情深度，L100表示100档行情深度   |
 
  **返回示例**
 
  ``` 
 {
-	"exeStatus": "1",
+	"status": "0",
 	"asks": [],
 	"bids": [0.073330, 1.00000000],
 	"type": "depth.L20.ethbtc",
@@ -333,15 +287,11 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |type |String   |行情的类型，如depth.L20.ethbtc，depth.L100.ethbtc  |
 |ts |long   |响应生成时间点，单位：毫秒  |
 |bids|list|买盘,[price(成交价), amount(成交量),price(成交价), amount(成交量)], 按price降序|
 |asks|list|卖盘,[price(成交价), amount(成交量),price(成交价), amount(成交量)], 按price升序|
-
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 # 获取最新的成交明细
 **简要描述：** 
@@ -349,7 +299,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取最新的成交明细。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/market/trades/$symbol `
+- ` http://api.bi.top/v1/market/trades/$symbol `
   
 **请求方式：**
 - GET 
@@ -365,7 +315,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
  ``` 
 {
-	"exeStatus": "1",
+	"status": "0",
 	"ts": 1530183006962,
 	"data": [{
 		"amount": 0.000,
@@ -387,16 +337,12 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |ts |long   |响应生成时间点，单位：毫秒  |
 |data|list|成交数据的封装|
 |amount|BigDecimal|成交量|
 |price|BigDecimal|成交价|
 |ts|BigDecimal|成交时间|
-
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 # 获取Candle信息
 **简要描述：** 
@@ -404,7 +350,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取Candle信息。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/market/candles/$resolution/$symbol `
+- ` http://api.bi.top/v1/market/candles/$resolution/$symbol `
   
 **请求方式：**
 - GET 
@@ -435,7 +381,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
  ``` 
 {
-	"exeStatus": "1",
+	"status": "0",
 	"type": "candle.M1.ethbtc",
 	"data": [{
 		"quote_vol": 0.000000,
@@ -480,7 +426,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |type|String|K线类型|
 |data|list|K线数据的封装|
 |open|BigDecimal|开盘价|
@@ -490,9 +436,6 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |base_vol|BigDecimal|基准货币成交量, 如 btcusdt 中 btc 的量|
 |quote_vol|BigDecimal|计价货币成交量, 如 btcusdt 中 usdt 的量|
 
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 # 查询账户资产
     
 **简要描述：** 
@@ -500,7 +443,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于查询用户的资产列表
 
 **请求URL：** 
-- ` http://xx.com/v1/accounts/balance `
+- ` http://api.bi.top/v1/accounts/balance `
   
 **请求方式：**
 - GET 
@@ -512,7 +455,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 ``` 
   {
-	"exeStatus": "1",
+	"status": "0",
 	"data": [{
 		"balance": "0.00000000",
 		"available": "0.00000000",
@@ -561,17 +504,12 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data |jsonArray   |用户资产余额的封装  |
 |currency|String|资产简称|
 |balance|String|资产总额|
 |available|String|可用余额|
 |frozen|String|冻结余额|
-
-
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 
 # 订单模型说明
@@ -606,7 +544,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此 API 用于创建新的订单。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/orders `
+- ` http://api.bi.top/v1/orders `
   
 **请求方式：**
 - POST 
@@ -625,7 +563,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
  ``` 
  { 
-     "exeStatus" : "1", 
+     "status" : "0", 
      "data" : "B180628214433836336014" 
  } 
 
@@ -635,11 +573,8 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data|String|订单ID|
-
- **备注** 
-- 更多返回错误代码请看首页的错误代码描述
 
 # 查询订单列表
 **简要描述：** 
@@ -647,7 +582,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于查询订单列表。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/orders `
+- ` http://api.bi.top/v1/orders `
   
 **请求方式：**
 - GET 
@@ -669,7 +604,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
  **返回示例**
 
  ``` {
-	"exeStatus": "1",
+	"status": "1",
 	"data": [{
 		"amount": "1.00000000",
 		"created_at": "1528422687000",
@@ -743,7 +678,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data |list|订单列表数据封装|
 |created_at |long   |创建时间|
 |amount|String|下单数量|
@@ -758,17 +693,13 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |symbol|String|交易对|
 |type|String|交易类型|
 
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
-
 # 获取指定订单
 **简要描述：** 
 
 - 此API用于获取指定订单。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/orders/{order_id} `
+- ` http://api.bi.top/v1/orders/{order_id} `
   
 **请求方式：**
 - GET 
@@ -783,7 +714,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
  ``` 
  { 
-     "exeStatus" : "1", 
+     "status" : "0", 
      "data" : { 
           "amount" : "1.00000000", 
           "created_at" : "1528422687000", 
@@ -802,13 +733,11 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
  ```
 
-
-
  **返回参数说明** 
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data |list|订单列表数据封装|
 |created_at |long   |创建时间|
 |amount|String|下单数量|
@@ -823,17 +752,13 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |symbol|String|交易对|
 |type|String|交易类型|
 
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
-
 # 申请撤销订单
 **简要描述：** 
 
 - 此API用于申请撤销订单。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/orders/{order_id}/submit-cancel `
+- ` http://api.bi.top/v1/orders/{order_id}/submit-cancel `
   
 **请求方式：**
 - POST 
@@ -848,7 +773,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
  
  ``` 
  { 
-     "exeStatus" : "1", 
+     "status" : "0", 
      "msg" : "B180608095127029911718", 
      "data" : "true" 
  } 
@@ -858,13 +783,9 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |msg|String|撤单ID|
 |data|String|true:撤单成功；false:撤单失败|
-
- **备注** 
-
-- 更多返回错误代码请看首页的错误代码描述
 
 # 查询指定订单的成交记录
 **简要描述：** 
@@ -872,7 +793,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于查询指定订单的成交记录。
 
 **请求URL：** 
-- ` http://xx.com/api/v1/orders/{order_id}/match-results `
+- ` http://api.bi.top/v1/orders/{order_id}/match-results `
   
 **请求方式：**
 - GET 
@@ -887,7 +808,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
  
  ``` 
 {
-	"exeStatus": "1",
+	"status": "0",
 	"data": [{
 		"side": "buy",
 		"price": "0.91110000",
@@ -910,7 +831,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 
 |参数名|类型|说明|
 |:-----  |:-----|-----                           |
-|exeStatus |String   |执行结果（1：操作成功；0：操作失败，操作失败时会有errorCode）  |
+|status |String   |执行结果（0：操作成功；1：操作失败，操作失败时会有errorCode）  |
 |data|list|成交记录封装|
 |side|String|交易方向|
 |price|String|成交价|
@@ -919,9 +840,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |filled_amount|String|成交量|
 |fill_fees|String|成交手续费|
 
- **备注** 
 
-- 更多返回错误代码请看首页的错误代码描述
 # 错误代码
 
 |错误代码|含义解释|
