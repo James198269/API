@@ -171,7 +171,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
 # 行情描述
 行情是一个全公开的 API, 当前仅提供了 HTTP的 API. 
 
-所有 HTTP 请求的 URL base 为: https://api.bi.top/v1/market
+所有 HTTP 请求的 URL base 为: http://api.bi.top/v1/market
 
 下文会统一术语:
 
