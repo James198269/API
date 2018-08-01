@@ -900,5 +900,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |405|Method Not Allowed -- 使用的 HTTP 方法不适用于请求的资源|
 |406|Not Acceptable -- 请求的内容格式不是 JSON|
 |429|Too Many Requests -- 请求受限，请降低请求频率|
+|430|Timestamp Timeout -- 时间戳校验失败，超过限时或时间戳不存在|
 |500|Internal Server Error -- 服务内部错误，请稍后再进行尝试|
+|501|Internal Server Error -- 服务内部错误，获取原始地址失败，签名失败|
 |503|Service Unavailable -- 服务不可用，请稍后再进行尝试|
