@@ -1,10 +1,10 @@
 # 认证
-Bi.top 使用 API key 和 API secret 进行验证，请访问 设置中心，并注册成为开发者，获取 API key 和 API secret。
+Bi.top 使用 ID 和 Access Key 进行验证，请访问 个人中心[https://www.bi.top/#/api] ，并注册成为开发者，获取 ID 和 Access Key。
 
-Bi.top[www.bi.top](https://www.bi.top "www.bi.top") 的 API 请求，除公开的 API 外都需要携带 API key 以及签名
+Bi.top [www.bi.top](https://www.bi.top "www.bi.top") 的 API 请求，除公开的 API 外都需要携带 Access Key 以及签名。
 
 # 访问限制
-目前访问频率为每个用户 100次 / 10秒，未来会按照业务区分访问频率限制。
+目前访问频率为每个用户 100次 / 10秒。
 
 # API 签名
 签名前准备的数据如下：
@@ -37,6 +37,54 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
  **请注意 POST_BODY 的键值需要按照字母表排序！**
  
 #  完整示例
+## GET 示例
+1. 首先，对于请求的 URI 中的参数，需要按照按照字母表排序
+    * 原始URL：https://api.bi.top/v1/orders?states=submitted,canceled,filled&before=1&symbol=biusdt
+    * 排序后：https://api.bi.top/v1/orders?before=1&states=submitted,canceled,filled&symbol=biusdt
+2. 然后，将大写的HTTP请求方法拼在前面：
+    * GEThttps://api.bi.top/v1/orders?before=1&states=submitted,canceled,filled&symbol=biusdt
+3. 接着，将时间戳拼在后面，因为GET请求没有BODY体，所以即产生最终的待签名串：
+    * GEThttps://api.bi.top/v1/orders?before=1&states=submitted,canceled,filled&symbol=biusdt1533091994737
+4. 将待签名串进行Base64编码：
+    * R0VUaHR0cHM6Ly9hcGkuYmkudG9wL3YxL29yZGVycz9iZWZvcmU9MSZzdGF0ZXM9c3VibWl0dGVkLGNhbmNlbGVkLGZpbGxlZCZzeW1ib2w9Yml1c2R0MTUzMzA5MTk5NDczNw==
+5. 使用申请 ID 时获得的秘钥（[Access Key] - 以 3600d0a74aa3410fb3b1996cca2419c8 为例），对刚刚得到的编码结果进行 HMAC-SHA1 签名，并对二进制结果进行 Base64 编码，得到：
+    * Shq8C+nbbQrogJL/ssCKjkMl/WE=
+6. 对刚得到的签名，使用'FC-ACCESS-SIGNATURE'做为key,并连同时间戳(FC-ACCESS-TIMESTAMP)、跟密钥对应的 ID（FC-ACCESS-KEY），一起放入请求头：
+    * FC-ACCESS-KEY:XXX
+    * FC-ACCESS-SIGNATURE:Shq8C+nbbQrogJL/ssCKjkMl/WE=
+    * FC-ACCESS-TIMESTAMP:1533091994737
+
+
+## POST 示例
+POST https://api.bi.top/v1/orders
+
+{
+  "type": "limit",
+  "side": "buy",
+  "amount": "100.0",
+  "price": "100.0",
+  "symbol": "btcusdt"
+}
+
+timestamp: 1533091994737
+签名前的准备数据如下：
+
+POSThttps://api.bi.top/v1/orders1533091994737amount=100.0&price=100.0&side=buy&symbol=btcusdt&type=limit
+
+进行 Base64 编码，得到：
+
+UE9TVGh0dHBzOi8vYXBpLmJpLnRvcC92MS9vcmRlcnMxNTMzMDkxOTk0NzM3YW1vdW50PTEwMC4wJnByaWNlPTEwMC4wJnNpZGU9YnV5JnN5bWJvbD1idGN1c2R0JnR5cGU9bGltaXQ=
+
+拷贝在申请 ID 时获得的秘钥（Access Key），下面的签名结果采用 3600d0a74aa3410fb3b1996cca2419c8 作为示例，
+
+对得到的结果使用秘钥进行 HMAC-SHA1 签名，并对二进制结果进行 Base64 编码，得到：
+
+z4z0A+bBCa3AiEuEQoQFk5cDoOo=
+
+即生成了用于向 API 服务器进行验证的最终签名。
+
+
+
 # 查询服务器时间
     
 **简要描述：** 
@@ -44,7 +92,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
 - 此 API 用于获取服务器时间
 
 **请求URL：** 
-- ` http://api.bi.top/v1/public/server-time `
+- ` https://api.bi.top/v1/public/server-time `
   
 **请求方式：**
 - GET 
@@ -77,7 +125,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
 - 此 API 用于获取可用币种。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/public/currencies `
+- ` https://api.bi.top/v1/public/currencies `
   
 **请求方式：**
 - GET 
@@ -112,7 +160,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
 - 此 API 用于获取可用交易对。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/public/symbols `
+- ` https://api.bi.top/v1/public/symbols `
   
 **请求方式：**
 - GET 
@@ -171,7 +219,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
 # 行情描述
 行情是一个全公开的 API, 当前仅提供了 HTTP的 API. 
 
-所有 HTTP 请求的 URL base 为: http://api.bi.top/v1/market
+所有 HTTP 请求的 URL base 为: https://api.bi.top/v1/market
 
 下文会统一术语:
 
@@ -192,7 +240,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 为了使得 ticker 信息组足够小和快, 我们强制使用了列表格式.
 
 **请求URL：** 
-- ` http://api.bi.top/v1/market/ticker/$symbol `
+- ` https://api.bi.top/v1/market/ticker/$symbol `
   
 **请求方式：**
 - GET 
@@ -259,7 +307,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取最新的深度明细，目前行情深度暂仅支持100档。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/market/depth/$level/$symbol `
+- ` https://api.bi.top/v1/market/depth/$level/$symbol `
   
 **请求方式：**
 - GET 
@@ -299,7 +347,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取最新的成交明细。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/market/trades/$symbol `
+- ` https://api.bi.top/v1/market/trades/$symbol `
   
 **请求方式：**
 - GET 
@@ -350,7 +398,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取Candle信息。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/market/candles/$resolution/$symbol `
+- ` https://api.bi.top/v1/market/candles/$resolution/$symbol `
   
 **请求方式：**
 - GET 
@@ -443,7 +491,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于查询用户的资产列表
 
 **请求URL：** 
-- ` http://api.bi.top/v1/accounts/balance `
+- ` https://api.bi.top/v1/accounts/balance `
   
 **请求方式：**
 - GET 
@@ -544,7 +592,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此 API 用于创建新的订单。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/orders `
+- ` https://api.bi.top/v1/orders `
   
 **请求方式：**
 - POST 
@@ -582,7 +630,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于查询订单列表。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/orders `
+- ` https://api.bi.top/v1/orders `
   
 **请求方式：**
 - GET 
@@ -699,7 +747,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于获取指定订单。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/orders/{order_id} `
+- ` https://api.bi.top/v1/orders/{order_id} `
   
 **请求方式：**
 - GET 
@@ -758,7 +806,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于申请撤销订单。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/orders/{order_id}/submit-cancel `
+- ` https://api.bi.top/v1/orders/{order_id}/submit-cancel `
   
 **请求方式：**
 - POST 
@@ -793,7 +841,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 - 此API用于查询指定订单的成交记录。
 
 **请求URL：** 
-- ` http://api.bi.top/v1/orders/{order_id}/match-results `
+- ` https://api.bi.top/v1/orders/{order_id}/match-results `
   
 **请求方式：**
 - GET 
