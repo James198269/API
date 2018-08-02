@@ -1,5 +1,5 @@
 # 认证
-Bi.top 使用 ID 和 Access Key 进行验证，请访问 个人中心[https://www.bi.top/#/api] ，并注册成为开发者，获取 ID 和 Access Key。
+Bi.top 使用 ID 和 Access Key 进行验证，请访问 [个人中心](https://www.bi.top/#/api) ，并注册成为开发者，获取 ID 和 Access Key。
 
 Bi.top [www.bi.top](https://www.bi.top "www.bi.top") 的 API 请求，除公开的 API 外都需要携带 Access Key 以及签名。
 
@@ -37,6 +37,8 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
  **请注意 POST_BODY 的键值需要按照字母表排序！**
  
 #  完整示例
+**签名注意事项：**
+   签名前须到官网个人中心页-API管理-创建新密钥，创建完成之后在[我的密钥]获取必须使用要到的两个参数：ID（即FC-ACCESS-KEY）和访问密钥Access Key（签名必须用到）
 ## GET 示例
 1. 首先，对于请求的 URI 中的参数，需要按照按照字母表排序
     * 原始URL：https://api.bi.top/v1/orders?states=submitted,canceled,filled&before=1&symbol=biusdt
@@ -49,8 +51,8 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
     * R0VUaHR0cHM6Ly9hcGkuYmkudG9wL3YxL29yZGVycz9iZWZvcmU9MSZzdGF0ZXM9c3VibWl0dGVkLGNhbmNlbGVkLGZpbGxlZCZzeW1ib2w9Yml1c2R0MTUzMzA5MTk5NDczNw==
 5. 使用申请 ID 时获得的秘钥（[Access Key] - 以 3600d0a74aa3410fb3b1996cca2419c8 为例），对刚刚得到的编码结果进行 HMAC-SHA1 签名，并对二进制结果进行 Base64 编码，得到：
     * Shq8C+nbbQrogJL/ssCKjkMl/WE=
-6. 对刚得到的签名，使用'FC-ACCESS-SIGNATURE'做为key,并连同时间戳(FC-ACCESS-TIMESTAMP)、跟密钥对应的 ID（FC-ACCESS-KEY），一起放入请求头：
-    * FC-ACCESS-KEY:XXX
+6. 对刚得到的签名，使用'FC-ACCESS-SIGNATURE'做为key,并连同时间戳(FC-ACCESS-TIMESTAMP)、FC-ACCESS-KEY（以180802105542248936666为例），一起放入请求头：
+    * FC-ACCESS-KEY:官网个人中心页-API管理-我的密钥-ID
     * FC-ACCESS-SIGNATURE:Shq8C+nbbQrogJL/ssCKjkMl/WE=
     * FC-ACCESS-TIMESTAMP:1533091994737
 
@@ -82,7 +84,6 @@ UE9TVGh0dHBzOi8vYXBpLmJpLnRvcC92MS9vcmRlcnMxNTMzMDkxOTk0NzM3YW1vdW50PTEwMC4wJnBy
 z4z0A+bBCa3AiEuEQoQFk5cDoOo=
 
 即生成了用于向 API 服务器进行验证的最终签名。
-
 
 
 # 查询服务器时间
