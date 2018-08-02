@@ -38,7 +38,7 @@ https://api.bi.top/v1/ 为 v1 API 的请求前缀
  
 #  完整示例
 **签名注意事项：**
-   签名前须到官网个人中心页-API管理-创建新密钥，创建完成之后在[我的密钥]获取必须使用要到的两个参数：ID（即FC-ACCESS-KEY）和访问密钥Access Key（签名必须用到）
+   签名前须到官网个人中心页-API管理-创建新密钥，创建完成之后在[我的密钥]获取必须要使用的两个参数：ID（协议头提交需用到）和访问密钥Access Key（签名必须用到）
 ## GET 示例
 1. 首先，对于请求的 URI 中的参数，需要按照按照字母表排序
     * 原始URL：https://api.bi.top/v1/orders?states=submitted,canceled,filled&before=1&symbol=biusdt
