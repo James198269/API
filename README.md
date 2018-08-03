@@ -85,6 +85,27 @@ z4z0A+bBCa3AiEuEQoQFk5cDoOo=
 
 即生成了用于向 API 服务器进行验证的最终签名。
 
+### 
+* 撤单签名示例：
+地址： https://api.bi.top/v1/orders/{order_id}/submit-cancel
+
+* 假设订单号为：
+var order_id = "S180711220933136819234";
+
+* 该例中，参数的传递方式为替换掉路径中的占位符，替换后的路径为：
+https://api.bi.top/v1/orders/S180711220933136819234/submit-cancel
+
+* 然后按规则拼接待签名字符串，假设当前时间的毫秒级时间戳为：1533290825432，则拼接后：
+POSThttps://api.bi.top/v1/orders/S180711220933136819234/submit-cancel1533290825432
+
+* Base64编码：
+UE9TVGh0dHBzOi8vYXBpLmJpLnRvcC92MS9vcmRlcnMvUzE4MDcxMTIyMDkzMzEzNjgxOTIzNC9zdWJtaXQtY2FuY2VsMTUzMzI5MDgyNTQzMg==
+
+* 使用密钥进行 HMAC-SHA1 签名（假设密钥为：3600d0a74aa3410fb3b1996cca2419c8），并对__二进制结果__进行 Base64 编码，得到：
+P7/jn+u7xNFJPc0M5RuvFC4wOc4=
+
+该值即为最终签名结果。
+
 
 # 查询服务器时间
     
