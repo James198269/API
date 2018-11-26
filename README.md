@@ -757,7 +757,7 @@ ts 表示推送服务器的时间. 是毫秒为单位的数字型字段, unix ep
 |limit |否  |string |每页的订单数量，默认为 20 条，最大支持到100条|
 
 **注意
-1、before和after只能有1个时间戳；
+1、before和after这两个参数必传其一，值是页码数；
 2、states可以传多值，中间用逗号分隔，如states=submitted,canceled；**
 
  **返回示例**
